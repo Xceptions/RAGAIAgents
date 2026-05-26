@@ -8,18 +8,19 @@ import pandas as pd
 df = pd.read_csv("realistic_restaurant_reviews.csv")
 embeddings = OllamaEmbeddings(model="mxbai-embed-large")
 
-db_location = "./chroma_langchain_db" # where we want chroma to store the vectors
+db_location = "./chroma_langchain_db" # location for chroma to store the vectors
 
-# define our chroma vector db with a persistent location
-# and storage
+# creates the vector db if not exist
 vector_store = Chroma(
     collection_name="restaurant_reviews",
     persist_directory=db_location, # to persist
     embedding_function=embeddings
 )
 
+# check if collection is empty
+is_empty = vector_store._collection.count() == 0
 
-if not os.path.exists(db_location):
+if is_empty:
     # prepare our reviews as a document
     documents = []
     ids = []
@@ -34,10 +35,10 @@ if not os.path.exists(db_location):
         documents.append(document)
 
     # add the documents prepared above to the chroma db
+    # if not os.path.exists(db_location):
     vector_store.add_documents(documents=documents, ids=ids)
 
 # to retrieve the data
 retriever  = vector_store.as_retriever(
     search_kwargs={"k": 5} # our many documents to retrieve
-
 )
