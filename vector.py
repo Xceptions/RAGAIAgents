@@ -1,6 +1,6 @@
 from langchain_ollama import OllamaEmbeddings
 from langchain_chroma import Chroma
-from langchain_core.documents import Documents
+from langchain_core.documents import Document
 
 import os
 import pandas as pd
@@ -27,7 +27,7 @@ if not os.path.exists(db_location):
     for i, row in df.iterrows():
         document = Document(
             page_content = row['Title'] + " " + row['Review'],
-            metadata = {"rating": row["Rating"], "date": row["Date"]}
+            metadata = {"rating": row["Rating"], "date": row["Date"]},
             id=str(i)
         )
         ids.append(str(i))
