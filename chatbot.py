@@ -7,7 +7,7 @@ model = OllamaLLM(model="llama3.2")
 template = """
 You are an expert in answering questions about a pizza restaurant
 
-Here are some revelevant reviews: {reviews}
+Here are some relevant reviews: {reviews}
 
 Here is the question to answer: {question}
 """
