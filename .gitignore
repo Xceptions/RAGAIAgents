@@ -1,3 +1,4 @@
 .envragaiagents
-__pycache__
-chroma_langchain_db
+__pycache__/
+*.py[cod]
+chroma_langchain_db/
