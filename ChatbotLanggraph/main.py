@@ -35,7 +35,7 @@ graph_builder = StateGraph(State)
 
 def classify_message(state: State):
     last_message = state["messages"][-1]
-    classifier_llm = llm.with_structured_output(MessageClassifier)
+    classifier_llm = llm_model.with_structured_output(MessageClassifier)
 
     result = classifier_llm.invoke([
         {
@@ -55,7 +55,7 @@ def router(state: State):
         return {"next": "therapist"}
     return {"next": "logical"}
 
-def therapis_agent(state: State):
+def therapist_agent(state: State):
     last_message = state["messages"][-1]
     messages = [
         {
@@ -116,7 +116,7 @@ def run_chatbot():
             {"role": "user", "content": user_input}
         ]
         state = graph.invoke(state)
-        if state.get("messages") and len(state["message"]) > 0:
+        if state.get("messages") and len(state["messages"]) > 0:
             last_message = state["messages"][-1]
             print(f"Assistant: {last_message.content}")
 
